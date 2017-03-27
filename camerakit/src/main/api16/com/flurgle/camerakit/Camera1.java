@@ -305,6 +305,11 @@ public class Camera1 extends CameraImpl {
         return mCamera != null;
     }
 
+    @Override
+    int getOrientation() {
+        return mCameraInfo.orientation;
+    }
+
     // Internal:
 
     private void openCamera() {
@@ -369,9 +374,10 @@ public class Camera1 extends CameraImpl {
                 getCaptureResolution().getWidth(),
                 getCaptureResolution().getHeight()
         );
-        int rotation = (calculateCameraRotation(mDisplayOrientation)
-                + (mFacing == CameraKit.Constants.FACING_FRONT ? 180 : 0) ) % 360;
-        mCameraParameters.setRotation(rotation);
+        // This does not work on some cameras (see: Galaxy S7)
+//        int rotation = (calculateCameraRotation(mDisplayOrientation)
+//                + (mFacing == CameraKit.Constants.FACING_FRONT ? 180 : 0) ) % 360;
+//        mCameraParameters.setRotation(rotation);
 
         setFocus(mFocus);
         setFlash(mFlash);

@@ -192,6 +192,12 @@ class Camera2 extends CameraImpl {
         return mCamera != null;
     }
 
+    // TODO: implement this
+    @Override
+    int getOrientation() {
+        return 0;
+    }
+
     // Internal
 
     private List<Size> getAvailableCaptureResolutions() {
