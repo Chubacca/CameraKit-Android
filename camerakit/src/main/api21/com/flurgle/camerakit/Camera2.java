@@ -198,6 +198,16 @@ class Camera2 extends CameraImpl {
         return 0;
     }
 
+    @Override
+    int getCameraCount() {
+        try {
+            return mCameraManager.getCameraIdList().length;
+        } catch (CameraAccessException e) {
+            Log.e("CameraKit", e.toString());
+            return 2;
+        }
+    }
+
     // Internal
 
     private List<Size> getAvailableCaptureResolutions() {

@@ -338,6 +338,10 @@ public class CameraView extends FrameLayout {
         return mCameraImpl != null ? mCameraImpl.getOrientation() : 0;
     }
 
+    public int getCameraCount() {
+        return mCameraImpl != null ? mCameraImpl.getCameraCount() : 0;
+    }
+
     private void requestPermissions(boolean requestCamera, boolean requestAudio) {
         Activity activity = null;
         Context context = getContext();

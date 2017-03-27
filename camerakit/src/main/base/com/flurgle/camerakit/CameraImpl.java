@@ -30,5 +30,6 @@ abstract class CameraImpl {
     abstract Size getPreviewResolution();
     abstract boolean isCameraOpened();
     abstract int getOrientation();
+    abstract int getCameraCount();
 
 }

@@ -310,6 +310,11 @@ public class Camera1 extends CameraImpl {
         return mCameraInfo.orientation;
     }
 
+    @Override
+    int getCameraCount() {
+        return Camera.getNumberOfCameras();
+    }
+
     // Internal:
 
     private void openCamera() {
