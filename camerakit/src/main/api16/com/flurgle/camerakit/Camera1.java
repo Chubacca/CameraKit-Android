@@ -260,13 +260,12 @@ public class Camera1 extends CameraImpl {
                     mCameraParameters.getSupportedPreviewSizes(),
                     mCameraParameters.getSupportedPictureSizes()
             );
-            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
 
             Iterator<Size> descendingSizes = sizes.descendingIterator();
             Size size;
             while (descendingSizes.hasNext() && mCaptureSize == null) {
                 size = descendingSizes.next();
-                if (targetRatio == null || targetRatio.matches(size)) {
+                if (aspectRatios.size() == 0 || aspectRatios.contains(AspectRatio.of(size.getWidth(), size.getHeight()))) {
                     mCaptureSize = size;
                     break;
                 }
@@ -278,17 +277,14 @@ public class Camera1 extends CameraImpl {
 
     @Override
     Size getPreviewResolution() {
-        if (mPreviewSize == null && mCameraParameters != null) {
+        if (mPreviewSize == null && mCameraParameters != null && getCaptureResolution() != null) {
             TreeSet<Size> sizes = new TreeSet<>();
             for (Camera.Size size : mCameraParameters.getSupportedPreviewSizes()) {
                 sizes.add(new Size(size.width, size.height));
             }
 
-            TreeSet<AspectRatio> aspectRatios = findCommonAspectRatios(
-                    mCameraParameters.getSupportedPreviewSizes(),
-                    mCameraParameters.getSupportedPictureSizes()
-            );
-            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
+            Size captureResolution = getCaptureResolution();
+            AspectRatio targetRatio = AspectRatio.of(captureResolution.getWidth(), captureResolution.getHeight());
 
             Iterator<Size> descendingSizes = sizes.descendingIterator();
             Size size;
@@ -386,9 +382,7 @@ public class Camera1 extends CameraImpl {
     private TreeSet<AspectRatio> findCommonAspectRatios(List<Camera.Size> previewSizes, List<Camera.Size> captureSizes) {
         Set<AspectRatio> previewAspectRatios = new HashSet<>();
         for (Camera.Size size : previewSizes) {
-            if (size.width >= CameraKit.Internal.screenHeight && size.height >= CameraKit.Internal.screenWidth) {
-                previewAspectRatios.add(AspectRatio.of(size.width, size.height));
-            }
+            previewAspectRatios.add(AspectRatio.of(size.width, size.height));
         }
 
         Set<AspectRatio> captureAspectRatios = new HashSet<>();
