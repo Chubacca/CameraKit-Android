@@ -326,6 +326,11 @@ public class CameraView extends FrameLayout {
         mCameraImpl.endVideo();
     }
 
+    @Facing
+    public int getFacing() {
+        return mFacing;
+    }
+
     public Size getPreviewSize() {
         return mCameraImpl != null ? mCameraImpl.getPreviewResolution() : null;
     }
