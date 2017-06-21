@@ -3,7 +3,6 @@ package com.flurgle.camerakit;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
-import android.graphics.PointF;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
@@ -240,6 +239,22 @@ class Camera2 extends CameraImpl {
         }
         return mCameraPropertyMap.get(mCamera.getId());
     }
+
+    @Override
+    int getOrientation() {
+        return 0;
+    }
+
+    @Override
+    int getCameraCount() {
+        try {
+            return mCameraManager.getCameraIdList().length;
+        } catch (CameraAccessException e) {
+            Log.e("CameraKit", e.toString());
+            return 2;
+        }
+    }
+
     // Internal
 
     private List<Size> getAvailableCaptureResolutions() {

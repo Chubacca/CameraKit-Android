@@ -7,8 +7,8 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -357,6 +356,16 @@ public class Camera1 extends CameraImpl {
         return mCameraProperties;
     }
 
+    @Override
+    int getCameraCount() {
+        return Camera.getNumberOfCameras();
+    }
+
+    @Override
+    int getOrientation() {
+        return mCameraInfo.orientation;
+    }
+
     // Internal:
 
     private void openCamera() {
@@ -434,7 +443,8 @@ public class Camera1 extends CameraImpl {
                 getCaptureResolution().getHeight()
         );
         int rotation = calculateCaptureRotation();
-        mCameraParameters.setRotation(rotation);
+        // This is not supported in some camera (see: Galaxy s7)
+//        mCameraParameters.setRotation(rotation);
 
         setFocus(mFocus);
         setFlash(mFlash);

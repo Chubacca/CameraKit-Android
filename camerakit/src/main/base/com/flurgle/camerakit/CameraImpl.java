@@ -31,6 +31,8 @@ abstract class CameraImpl {
     abstract Size getCaptureResolution();
     abstract Size getPreviewResolution();
     abstract boolean isCameraOpened();
+    abstract int getOrientation();
+    abstract int getCameraCount();
 
     @Nullable
     abstract CameraProperties getCameraProperties();
