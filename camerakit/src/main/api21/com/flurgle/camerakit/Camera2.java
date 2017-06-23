@@ -184,13 +184,14 @@ class Camera2 extends CameraImpl {
                     getAvailablePreviewResolutions(),
                     getAvailableCaptureResolutions()
             ).filter();
-            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
+//            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
 
             Iterator<Size> descendingSizes = sizes.descendingIterator();
             Size size;
             while (descendingSizes.hasNext() && mCaptureSize == null) {
                 size = descendingSizes.next();
-                if (targetRatio == null || targetRatio.matches(size)) {
+//                if (targetRatio == null || targetRatio.matches(size)) {
+                if (aspectRatios.size() == 0 || aspectRatios.contains(AspectRatio.of(size.getWidth(), size.getHeight()))) {
                     mCaptureSize = size;
                     break;
                 }
@@ -202,15 +203,18 @@ class Camera2 extends CameraImpl {
 
     @Override
     Size getPreviewResolution() {
-        if (mPreviewSize == null && mCameraCharacteristics != null) {
+//        if (mPreviewSize == null && mCameraCharacteristics != null) {
+        if (mPreviewSize == null && mCameraCharacteristics != null && getCaptureResolution() != null) {
             TreeSet<Size> sizes = new TreeSet<>();
             sizes.addAll(getAvailablePreviewResolutions());
 
-            TreeSet<AspectRatio> aspectRatios = new CommonAspectRatioFilter(
-                    getAvailablePreviewResolutions(),
-                    getAvailableCaptureResolutions()
-            ).filter();
-            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
+//            TreeSet<AspectRatio> aspectRatios = new CommonAspectRatioFilter(
+//                    getAvailablePreviewResolutions(),
+//                    getAvailableCaptureResolutions()
+//            ).filter();
+//            AspectRatio targetRatio = aspectRatios.size() > 0 ? aspectRatios.last() : null;
+            Size captureResolution = getCaptureResolution();
+            AspectRatio targetRatio = AspectRatio.of(captureResolution.getWidth(), captureResolution.getHeight());
 
             Iterator<Size> descendingSizes = sizes.descendingIterator();
             Size size;
